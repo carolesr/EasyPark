@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\facul\\Oficinas 3\\Back\\EasyPark\\EasyPark\\EasyPark.csproj": {}
+    "D:\\facul\\Oficinas 3\\repo\\Back\\EasyPark\\EasyPark\\EasyPark.csproj": {}
   },
   "projects": {
-    "D:\\facul\\Oficinas 3\\Back\\EasyPark\\EasyPark\\EasyPark.csproj": {
+    "D:\\facul\\Oficinas 3\\repo\\Back\\EasyPark\\EasyPark\\EasyPark.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\facul\\Oficinas 3\\Back\\EasyPark\\EasyPark\\EasyPark.csproj",
+        "projectUniqueName": "D:\\facul\\Oficinas 3\\repo\\Back\\EasyPark\\EasyPark\\EasyPark.csproj",
         "projectName": "EasyPark",
-        "projectPath": "D:\\facul\\Oficinas 3\\Back\\EasyPark\\EasyPark\\EasyPark.csproj",
+        "projectPath": "D:\\facul\\Oficinas 3\\repo\\Back\\EasyPark\\EasyPark\\EasyPark.csproj",
         "packagesPath": "C:\\Users\\carol\\.nuget\\packages\\",
-        "outputPath": "D:\\facul\\Oficinas 3\\Back\\EasyPark\\EasyPark\\obj\\",
+        "outputPath": "D:\\facul\\Oficinas 3\\repo\\Back\\EasyPark\\EasyPark\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

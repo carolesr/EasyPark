@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Repositories;
+using EasyPark.Services.Interfaces;
+using EasyPark.Services;
 
 namespace EasyPark
 {
@@ -30,6 +32,8 @@ namespace EasyPark
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEstablishmentService, EstablishmentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

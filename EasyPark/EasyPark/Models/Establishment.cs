@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace EasyPark.Models
 {
-    public class Establishment
+    public class Establishment : Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public List<Price> Prices { get; set; }

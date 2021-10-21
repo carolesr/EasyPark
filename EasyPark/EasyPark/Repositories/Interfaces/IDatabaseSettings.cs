@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MongoDB.Driver;
 
 namespace EasyPark.Repositories.Interfaces
 {
-    public interface IDatabaseSettings
+    public interface IDatabaseSettings<T>
     {
-        string User { get; set; }
-        string Establishment { get; set; }
-        string ConnectionString { get; set; }
-        string DatabaseName { get; set; }
+        IMongoCollection<T> Collection { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Repositories;
 using EasyPark.Services.Interfaces;
@@ -25,11 +24,9 @@ namespace EasyPark
         {
             services.AddControllers();
 
-            services.Configure<DatabaseSettings>(
-                Configuration.GetSection(nameof(DatabaseSettings)));
+            services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddScoped<IDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddScoped(typeof(IDatabaseSettings<>), typeof(DatabaseSettings<>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
             services.AddScoped<IUserService, UserService>();

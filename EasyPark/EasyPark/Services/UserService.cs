@@ -1,11 +1,21 @@
 ﻿using EasyPark.Models;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace EasyPark.Services
 {
-    public class UserService : BaseService<User>, IUserService
+    public class UserService : IUserService
     {
-        public UserService(IUserRepository repository) : base(repository) { }
+        private readonly IUserRepository _repository;
+        public UserService(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _repository.Get();
+        }
     }
 }

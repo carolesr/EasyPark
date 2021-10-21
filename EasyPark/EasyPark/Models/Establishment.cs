@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace EasyPark.Models
 {
     public class Establishment : Entity
     {
+        [BsonElement("name")]
         public string Name { get; set; }
+
+        [BsonElement("address")]
         public string Address { get; set; }
+
+        [BsonElement("prices")]
         public List<Price> Prices { get; set; }
+
+        [BsonElement("spots")]
         public List<Spot> Spots { get; set; }
     }
 }

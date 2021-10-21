@@ -4,8 +4,12 @@ using EasyPark.Services.Interfaces;
 
 namespace EasyPark.Services
 {
-    public class EstablishmentService : BaseService<Establishment>, IEstablishmentService
+    public class EstablishmentService : IEstablishmentService
     {
-        public EstablishmentService(IEstablishmentRepository repository) : base(repository) { }
+        private readonly IEstablishmentRepository _repository;
+        public EstablishmentService(IEstablishmentRepository repository)
+        {
+            _repository = repository;
+        }
     }
 }

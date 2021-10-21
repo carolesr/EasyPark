@@ -2,7 +2,7 @@
 
 namespace EasyPark.Services.Interfaces
 {
-    public interface IEstablishmentService : BaseIService<Establishment>
+    public interface IEstablishmentService
     {
     }
 }

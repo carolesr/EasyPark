@@ -4,8 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyPark.Controllers
 {
-    public class UserController : BaseController<User>
+    [ApiController]
+    [Route("user")]
+    public class UserController : ControllerBase
     {
-        public UserController(IUserService service) : base(service) { }
+        private readonly IUserService _service;
+
+        public UserController(IUserService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [Route("index")]
+        public ActionResult Index()
+        {
+            return Ok("hello world");
+        }
+
+        [HttpGet]
+        [Route("getAll")]
+        public ActionResult GetAll()
+        {
+            var result = _service.GetAll();
+            return Ok(result);
+        }
     }
 }

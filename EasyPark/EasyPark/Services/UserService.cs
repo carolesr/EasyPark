@@ -2,6 +2,7 @@
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Services.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyPark.Services
 {
@@ -16,6 +17,11 @@ namespace EasyPark.Services
         public IEnumerable<User> GetAll()
         {
             return _repository.Get();
+        }
+
+        public void CreateUser(User user)
+        {
+            _repository.Insert(user);
         }
     }
 }

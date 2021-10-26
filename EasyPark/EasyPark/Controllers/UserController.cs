@@ -29,5 +29,13 @@ namespace EasyPark.Controllers
             var result = _service.GetAll();
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("create")]
+        public ActionResult Create(User user)
+        {
+            _service.CreateUser(user);
+            return Ok("Usuário criado com sucesso");
+        }
     }
 }

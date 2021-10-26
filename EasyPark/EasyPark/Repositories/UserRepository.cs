@@ -1,6 +1,5 @@
 ﻿using EasyPark.Models;
 using EasyPark.Repositories.Interfaces;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System.Collections.Generic;
 

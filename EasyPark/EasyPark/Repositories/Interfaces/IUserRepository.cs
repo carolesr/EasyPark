@@ -1,4 +1,4 @@
-﻿using EasyPark.Models;
+﻿using EasyPark.Models.Entities;
 using System.Collections.Generic;
 
 namespace EasyPark.Repositories.Interfaces

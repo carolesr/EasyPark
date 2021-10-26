@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace EasyPark.Models
+namespace EasyPark.Models.Entities
 {
     public class Establishment : Entity
     {

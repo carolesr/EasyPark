@@ -1,4 +1,4 @@
-﻿using EasyPark.Models;
+﻿using EasyPark.Models.Entities;
 using EasyPark.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;

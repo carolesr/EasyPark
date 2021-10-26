@@ -1,4 +1,4 @@
-﻿using EasyPark.Models;
+﻿using EasyPark.Models.Entities;
 using EasyPark.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

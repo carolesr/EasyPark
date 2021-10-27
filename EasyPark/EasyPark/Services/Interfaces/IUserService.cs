@@ -1,11 +1,11 @@
 ﻿using EasyPark.Models.Entities;
-using System.Collections.Generic;
+using EasyPark.Models;
 
 namespace EasyPark.Services.Interfaces
 {
     public interface IUserService
     {
-        public IEnumerable<User> GetAll();
-        public void CreateUser(User user);
+        public Response GetAll();
+        public Response CreateUser(User user);
     }
 }

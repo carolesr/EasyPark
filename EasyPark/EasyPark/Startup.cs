@@ -7,6 +7,7 @@ using EasyPark.Repositories.Interfaces;
 using EasyPark.Repositories;
 using EasyPark.Services.Interfaces;
 using EasyPark.Services;
+using System.Reflection;
 
 namespace EasyPark
 {
@@ -31,6 +32,8 @@ namespace EasyPark
             services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEstablishmentService, EstablishmentService>();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

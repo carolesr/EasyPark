@@ -1,4 +1,4 @@
-﻿using EasyPark.Models.Entities;
+﻿using EasyPark.Models.DTOs;
 using EasyPark.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,7 @@ namespace EasyPark.Controllers
 
         [HttpPost]
         [Route("create")]
-        public ActionResult Create(User user)
+        public ActionResult Create(UserDTO user)
         {
             return Ok(_service.CreateUser(user));
         }

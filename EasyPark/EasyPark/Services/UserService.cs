@@ -1,7 +1,10 @@
-﻿using EasyPark.Models;
+﻿using AutoMapper;
+using EasyPark.Models;
+using EasyPark.Models.DTOs;
 using EasyPark.Models.Entities;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,25 +13,38 @@ namespace EasyPark.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
-        public UserService(IUserRepository repository)
+        private readonly IMapper _mapper;
+
+        public UserService(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public Response GetAll()
         {
-            var result = _repository.Get();
+            List<UserDTO> result = _mapper.Map<List<UserDTO>>(_repository.Get());
             return new Response(result);
         }
 
-        public Response CreateUser(User user)
+        public Response CreateUser(UserDTO userDTO)
         {
+            User user = _mapper.Map<User>(userDTO);
+
             List<string> validations = ValidateUser(user);
             if (validations.Any())
                 return new Response(validations, false);
 
-            _repository.Insert(user);
-            return new Response($"User {user.Name} created successfuly");
+            try
+            {
+                _repository.Insert(user);
+                return new Response($"User {user.Name} created successfuly");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+
         }
 
 

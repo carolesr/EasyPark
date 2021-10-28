@@ -1,4 +1,4 @@
-﻿using EasyPark.Models.Entities;
+﻿using EasyPark.Models.DTOs;
 using EasyPark.Models;
 
 namespace EasyPark.Services.Interfaces
@@ -6,6 +6,6 @@ namespace EasyPark.Services.Interfaces
     public interface IUserService
     {
         public Response GetAll();
-        public Response CreateUser(User user);
+        public Response CreateUser(UserDTO userDto);
     }
 }

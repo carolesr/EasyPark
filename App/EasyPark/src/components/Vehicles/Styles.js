@@ -4,7 +4,7 @@ import { colors } from '../../assets/colors'
 
 const styles = StyleSheet.create({
     screen: {
-        height: '40%',
+        height: '35%',
         margin: '5%',
         borderRadius: 20,
         backgroundColor: colors.white
@@ -28,16 +28,23 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         
     },
-    phoneCPFContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'row',
-    },
     title: {
         fontWeight: 'bold',
         fontSize: 20,
         color: colors.orange
     },
+    addContainer: {
+        maxWidth: '40%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 10
+    },
+    text: {
+        color: colors.orange,
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginTop: 5
+    }
 });
 
 export default styles;

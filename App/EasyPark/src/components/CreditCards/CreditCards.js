@@ -1,39 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, Button, Image, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
 import { colors } from '../../assets/colors'
 
-const Vehicles = () => {
+const CreditCards  = () => {
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
 
                 <View>
-                    <Text style={styles.title}>vehicles</Text>
+                    <Text style={styles.title}>credit cards</Text>
                 </View>
 
-                
-                <View style={styles.namePlateContainer}>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder='number'
+                        placeholderTextColor={colors.lightBlue}
+                        keyboardType="numeric"
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder='name'
+                        placeholderTextColor={colors.lightBlue}
+                    />
+                </View>
+                <View style={styles.expirationCVVcontainer}>
                     <View style={styles.inputContainer}>
                         <TextInput 
                             style={styles.input}
-                            placeholder='name'
+                            placeholder='expiration'
                             placeholderTextColor={colors.lightBlue}
+                            keyboardType="numeric"
                         />
                     </View><View style={styles.inputContainer}>
                         <TextInput 
                             style={styles.input}
-                            placeholder='plate'
+                            placeholder='CVV'
                             placeholderTextColor={colors.lightBlue}
+                            keyboardType="numeric"
                         />
                     </View>
                 </View>
 
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log('add more')
+                            console.log('add more cards')
                         }}>
                         <View style={styles.addContainer}>
                             <Icon name="plus" size={30} color={colors.orange} />
@@ -46,4 +62,4 @@ const Vehicles = () => {
     );
 }
 
-export default Vehicles;
+export default CreditCards;

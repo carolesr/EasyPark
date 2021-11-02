@@ -4,7 +4,7 @@ import { colors } from '../../assets/colors'
 
 const styles = StyleSheet.create({
     screen: {
-        height: '35%',
+        height: 170,
         margin: '5%',
         borderRadius: 20,
         backgroundColor: colors.white
@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
         color: colors.blue,
         fontWeight: 'bold',
         
+    },
+    namePlateContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'row',
     },
     title: {
         fontWeight: 'bold',

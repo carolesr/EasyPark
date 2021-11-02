@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         
     },
-    phoneCPFContainer: {
+    expirationCVVcontainer: {
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'row',
@@ -38,6 +38,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.orange
     },
+    addContainer: {
+        maxWidth: '40%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 10
+    },
+    text: {
+        color: colors.orange,
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginTop: 5
+    }
 });
 
 export default styles;

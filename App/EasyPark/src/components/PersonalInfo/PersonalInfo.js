@@ -40,12 +40,14 @@ const PersonalInfo = () => {
                             style={styles.input}
                             placeholder='CPF'
                             placeholderTextColor={colors.lightBlue}
+                            keyboardType="numeric"
                         />
                     </View><View style={styles.inputContainer}>
                         <TextInput 
                             style={styles.input}
                             placeholder='phone'
                             placeholderTextColor={colors.lightBlue}
+                            keyboardType="numeric"
                         />
                     </View>
                 </View>

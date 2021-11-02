@@ -31,10 +31,10 @@ const Navigator = props => {
         tabBarInactiveBackgroundColor: colors.orange,
         tabBarActiveBackgroundColor: colors.lightOrange,
         headerStyle: {
-          height: 80,
+          height: 60,
         },
+        headerTitleAlign: 'center',
         headerTitleStyle: {
-          alignSelf: 'center',
           fontWeight: 'bold',
           color: colors.white
         },

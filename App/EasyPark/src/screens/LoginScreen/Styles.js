@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         justifyContent: 'center',
-        width: '40%',
-        maxHeight: '20%',
-        marginBottom: '10%'
+        width: '50%',
+        maxHeight: '30%',
+        marginBottom: '5%'
     },
 })
 

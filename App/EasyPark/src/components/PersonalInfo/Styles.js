@@ -4,14 +4,15 @@ import { colors } from '../../assets/colors'
 
 const styles = StyleSheet.create({
     screen: {
-        height: 280,
+        height: 290,
         margin: '5%',
         borderRadius: 20,
         backgroundColor: colors.white
     },
     container: {
         flex: 1,
-        margin: '7%'
+        margin: '7%',
+        marginBottom: '4%'
     },
     inputContainer: {
         flex: 1,
@@ -38,6 +39,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.orange
     },
+    saveContainer: {
+        alignSelf: 'flex-end',
+        marginTop: 15,
+        marginRight: 10
+    },
+    text: {
+        color: colors.orange,
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginTop: 5,
+        marginRight: 10
+    }
 });
 
 export default styles;

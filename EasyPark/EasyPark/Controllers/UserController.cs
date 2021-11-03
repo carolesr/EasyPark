@@ -29,11 +29,26 @@ namespace EasyPark.Controllers
             return Ok(_service.GetAll());
         }
 
+        [HttpGet]
+        [Route("GetUser")]
+        public ActionResult GetUser(string email)
+        {
+            return Ok(_service.GetUser(email));
+        }
+
         [HttpPost]
         [Route("create")]
-        public ActionResult Create(UserDTO user)
+        public ActionResult Create(CreateUser user)
         {
             return Ok(_service.CreateUser(user));
+        }
+
+
+        [HttpPost]
+        [Route("login")]
+        public ActionResult Login(Login login)
+        {
+            return Ok(_service.Login(login));
         }
     }
 }

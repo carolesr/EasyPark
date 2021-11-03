@@ -6,6 +6,8 @@ namespace EasyPark.Services.Interfaces
     public interface IUserService
     {
         public Response GetAll();
-        public Response CreateUser(UserDTO userDto);
+        public Response GetUser(string email);
+        public Response CreateUser(CreateUser newUser);
+        public Response Login(Login login);
     }
 }

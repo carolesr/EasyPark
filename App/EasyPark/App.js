@@ -4,11 +4,6 @@ import type {Node} from 'react';
 import Navigator from './src/navigation/Navigator'
 
 const App: () => Node = () => {
-  
-  useEffect(() => {
-    console.log('a')
-  })
-
   return (
     <Navigator />
   )

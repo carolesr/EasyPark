@@ -39,16 +39,23 @@ const styles = StyleSheet.create({
         color: colors.orange
     },
     addContainer: {
-        maxWidth: '40%',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginTop: 10
+    },
+    saveContainer: {
+        alignSelf: 'flex-end',
+        marginRight: 10
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
     },
     text: {
         color: colors.orange,
         fontWeight: 'bold',
         fontSize: 16,
-        marginTop: 5
+        marginLeft: 10
     }
 });
 

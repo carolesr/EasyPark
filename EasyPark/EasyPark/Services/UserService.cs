@@ -27,9 +27,20 @@ namespace EasyPark.Services
             return new Response(result);
         }
 
-        public Response CreateUser(UserDTO userDTO)
+        public Response GetUser(string email)
         {
-            User user = _mapper.Map<User>(userDTO);
+            User user = _repository.Get().FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+                return new Response($"There is no account with email {email}.", false);
+
+            UserDTO result = _mapper.Map<UserDTO>(user);
+            return new Response(result);
+        }
+
+        public Response CreateUser(CreateUser newUser)
+        {
+            User user = _mapper.Map<User>(newUser);
 
             List<string> validations = ValidateUser(user);
             if (validations.Any())
@@ -45,6 +56,19 @@ namespace EasyPark.Services
                 return new Response(ex.ToString(), false);
             }
 
+        }
+
+        public Response Login(Login login)
+        {
+            User user = _repository.Get().FirstOrDefault(u => u.Email == login.Email);
+
+            if (user == null)
+                return new Response($"There is no account with email {login.Email}.", false);
+
+            if (user.Password != login.Password)
+                return new Response("Password incorrect.", false);
+
+            return new Response("User logged successfully.");
         }
 
 

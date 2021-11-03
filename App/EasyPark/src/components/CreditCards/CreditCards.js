@@ -5,7 +5,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './Styles'
 import { colors } from '../../assets/colors'
 
-const CreditCards  = () => {
+const CreditCards  = props => {
+    
+    const user = props.user;
+    
+    useEffect(() => {
+        console.log(user.cards)
+    }, [user]);
+
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
@@ -47,13 +54,21 @@ const CreditCards  = () => {
                     </View>
                 </View>
 
-                <View>
+                <View style={styles.buttonsContainer}>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             console.log('add more cards')
                         }}>
                         <View style={styles.addContainer}>
                             <Icon name="plus" size={30} color={colors.orange} />
                             <Text style={styles.text}>add more</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity activeOpacity={0.4}  onPress={() => {
+                            console.log('save')
+                        }}>
+                        <View style={styles.saveContainer}>
+                            <Icon name="save" size={30} color={colors.orange} />
                         </View>
                     </TouchableOpacity>
                 </View>

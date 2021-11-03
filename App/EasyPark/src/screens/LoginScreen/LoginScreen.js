@@ -4,7 +4,29 @@ import { View, ScrollView, Button, TextInput, TouchableOpacity, Text, Image } fr
 import { colors } from './../../assets/colors'
 import styles from './Styles'
 
+import userApi from './../../services/UserApi'
+
 const LoginScreen = props => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const login = () => {
+        const data = { email, password };
+        userApi
+            .post('login', data)
+            .then(response => {
+                console.log(response.data);
+                if (response.data.success)
+                    props.navigation.push('tab', {email: email});
+                else
+                    console.log(response.data.messages)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     return (
         <View style={styles.screen}>
 
@@ -22,6 +44,7 @@ const LoginScreen = props => {
                         style={styles.input}
                         placeholder='email'
                         placeholderTextColor={colors.lightBlue}
+                        onChangeText={t => {setEmail(t)}}
                     />
                 </View>
                 
@@ -31,13 +54,14 @@ const LoginScreen = props => {
                         placeholder='password'
                         placeholderTextColor={colors.lightBlue}
                         secureTextEntry={true}
+                        onChangeText={p => {setPassword(p)}}
                     />
                 </View>
 
                 <View style={styles.textContainer}>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             console.log('login')
-                            props.navigation.push('tab')
+                            login();
                         }}>
                         <Text style={styles.text}>login</Text>
                     </TouchableOpacity>

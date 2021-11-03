@@ -15,14 +15,14 @@ namespace EasyPark.Models
             Result = obj;
         }
 
-        public Response(string message, bool success)
+        public Response(string message, bool success = true)
         {
             Success = success;
             if (Messages == null) Messages = new List<string>();
             AddMessage(message);
         }
 
-        public Response(List<string> messages, bool success)
+        public Response(List<string> messages, bool success = true)
         {
             Success = success;
             if (Messages == null) Messages = new List<string>();

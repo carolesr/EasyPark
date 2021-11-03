@@ -1,10 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { colors } from '../assets/colors'
-import UserScreen from './../screens/UserScreen'
-import Teste2 from './../components/Teste'
+import UserScreen from './../screens/UserScreen/UserScreen'
+import Teste from './../components/Teste'
 
 const TabNavigator = props => {
     
@@ -34,7 +35,7 @@ const TabNavigator = props => {
         tabBarLabel: () => {return null},
         tabBarIcon: () => (
             <Icon name={icon} size={30} color={ colors.white } />
-        )
+        ),
     }
   }
 
@@ -42,17 +43,17 @@ const TabNavigator = props => {
         <Tab.Navigator screenOptions={ navigatorOptions }>
             <Tab.Screen
                 name="user info"
-                component={ UserScreen }
+                children={() => <UserScreen email={props.route.params.email} /> }
                 options={ screenOptions('user') }
             />
             <Tab.Screen
                 name="establishments"
-                component={ Teste2 }
+                component={ Teste }
                 options={ screenOptions('home') }
             />
             <Tab.Screen
                 name="sessions"
-                component={ Teste2 }
+                component={ Teste }
                 options={ screenOptions('history') }
             />
         </Tab.Navigator>

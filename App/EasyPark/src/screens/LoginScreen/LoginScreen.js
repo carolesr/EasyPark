@@ -47,6 +47,7 @@ const LoginScreen = props => {
                     <Text style={styles.textSmall}>don't have an account yet?</Text>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             console.log('register')
+                            props.navigation.push('register')
                         }}>
                         <View style={styles.textContainer}>
                             <Text style={styles.textSmall}>register</Text>

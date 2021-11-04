@@ -4,7 +4,6 @@ import { colors } from '../../assets/colors'
 
 const styles = StyleSheet.create({
     screen: {
-        height: 290,
         margin: '5%',
         borderRadius: 20,
         backgroundColor: colors.white

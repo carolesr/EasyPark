@@ -4,7 +4,6 @@ import { colors } from '../../assets/colors'
 
 const styles = StyleSheet.create({
     screen: {
-        height: 260,
         margin: '5%',
         borderRadius: 20,
         backgroundColor: colors.white
@@ -38,6 +37,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.orange
     },
+    removeContainer: {
+        marginTop: 20,
+        marginLeft: 5
+    },
     addContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -49,13 +52,16 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 15,
+        marginTop: 10
     },
     text: {
         color: colors.orange,
         fontWeight: 'bold',
         fontSize: 16,
         marginLeft: 10
+    },
+    itemContainer: {
+        marginBottom: 20
     }
 });
 

@@ -9,10 +9,12 @@ const Item = props => {
 
     const [name, setName] = useState('');
     const [plate, setPlate] = useState('');
+    const [id, setId] = useState('');
 
     useEffect(() => {
         setName(props.vehicle.name)
         setPlate(props.vehicle.plate)
+        setId(props.vehicle.id)
     }, [props])
 
     return (
@@ -20,7 +22,10 @@ const Item = props => {
             <View style={styles.inputContainer}>
                 <TextInput 
                     value={name}
-                    onChangeText={t => setName(t)}
+                    onChangeText={t => {
+                        setName(t)
+                        props.updateItem(id, t, plate)
+                    }}
                     style={styles.input}
                     placeholder='name'
                     placeholderTextColor={colors.lightBlue}
@@ -29,7 +34,10 @@ const Item = props => {
             <View style={styles.inputContainer}>
                 <TextInput
                     value={plate}
-                    onChangeText={t => setPlate(t)}
+                    onChangeText={t => {
+                        setPlate(t)
+                        props.updateItem(id, name, t)
+                    }}
                     style={styles.input}
                     placeholder='plate'
                     placeholderTextColor={colors.lightBlue}
@@ -37,7 +45,7 @@ const Item = props => {
             </View>
             {props.canRemove ? 
             <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                    props.removeItem(props.id);
+                    props.removeItem(id);
                 }}>
                 <View style={styles.removeContainer}>
                     <Icon name="remove" size={20} color={colors.orange} />

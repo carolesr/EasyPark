@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './Styles'
 import { colors } from '../../assets/colors'
 
+import userApi from '../../services/UserApi'
+
 const PersonalInfo = props => {
 
     const user = props.user;
@@ -27,6 +29,24 @@ const PersonalInfo = props => {
             setIsNewUser(false);
         }
     }, [user]);
+
+    const saveUser = () => {
+        const data = {
+            name, email, password, CPF, phone
+        }
+        userApi
+            .put('updateUser', data)
+            .then(response => {
+                console.log(response.data);
+                if (response.data.success)
+                    console.log('top')
+                else
+                    console.log(response.data.messages)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 
     return (
         <View style={styles.screen}>
@@ -105,6 +125,7 @@ const PersonalInfo = props => {
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             console.log('save')
+                            saveUser()
                         }}>
                         <View style={styles.saveContainer}>
                             <Icon name="save" size={30} color={colors.orange} />

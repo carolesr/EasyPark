@@ -8,7 +8,7 @@
 
         public string Expiration { get; set; }
 
-        public int CVV { get; set; }
+        public string CVV { get; set; }
 
         public bool Selected { get; set; }
     }

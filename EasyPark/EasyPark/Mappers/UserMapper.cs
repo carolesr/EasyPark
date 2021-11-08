@@ -10,6 +10,7 @@ namespace EasyPark.Mappers
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, CreateUser>().ReverseMap();
+            CreateMap<User, UpdateUser>().ReverseMap();
             CreateMap<Vehicle, VehicleDTO>().ReverseMap();
             CreateMap<Card, CardDTO>().ReverseMap();
             CreateMap<Session, SessionDTO>().ReverseMap();

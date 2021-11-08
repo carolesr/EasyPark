@@ -11,13 +11,14 @@ const Item = props => {
     const [name, setName] = useState('');
     const [expiration, setExpiration] = useState('');
     const [CVV, setCVV] = useState('');
+    const [id, setId] = useState('');
 
     useEffect(() => {
-        console.log(props.card)
         setNumber(props.card.number)
         setName(props.card.name)
         setExpiration(props.card.expiration)
         setCVV(props.card.cvv)
+        setId(props.card.id)
     }, [props])
 
     return (
@@ -26,7 +27,10 @@ const Item = props => {
                 <View style={styles.inputContainer}>
                     <TextInput 
                         value={number}
-                        onChangeText={t => setNumber(t)}
+                        onChangeText={t => {
+                            setNumber(t)
+                            props.updateItem(id, name, t, expiration, CVV)
+                        }}
                         style={styles.input}
                         placeholder='number'
                         placeholderTextColor={colors.lightBlue}
@@ -36,7 +40,10 @@ const Item = props => {
                 <View style={styles.inputContainer}>
                     <TextInput
                         value={name}
-                        onChangeText={t => setName(t)}
+                        onChangeText={t => {
+                            setName(t)
+                            props.updateItem(id, t, number, expiration, CVV)
+                        }}
                         style={styles.input}
                         placeholder='name'
                         placeholderTextColor={colors.lightBlue}
@@ -45,7 +52,7 @@ const Item = props => {
                 {props.canRemove ? 
                 <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                         console.log(name)
-                        props.removeItem(props.id);
+                        props.removeItem(id);
                     }}>
                     <View style={styles.removeContainer}>
                         <Icon name="remove" size={20} color={colors.orange} />
@@ -61,7 +68,10 @@ const Item = props => {
                 <View style={styles.inputContainer}>
                     <TextInput 
                         value={expiration}
-                        onChangeText={t => setExpiration(t)}
+                        onChangeText={t => {
+                            setExpiration(t)
+                            props.updateItem(id, name, number, t, CVV)
+                        }}
                         style={styles.input}
                         placeholder='expiration'
                         placeholderTextColor={colors.lightBlue}
@@ -69,10 +79,12 @@ const Item = props => {
                     />
                 </View>
                 <View style={styles.inputContainer}>
-                    {console.log(CVV)}
                     <TextInput 
                         value={CVV}
-                        onChangeText={t => setCVV(t)}
+                        onChangeText={t => {
+                            setCVV(t)
+                            props.updateItem(id, name, number, expiration, t)
+                        }}
                         style={styles.input}
                         placeholder='CVV'
                         placeholderTextColor={colors.lightBlue}

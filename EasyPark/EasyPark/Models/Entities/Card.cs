@@ -15,7 +15,7 @@ namespace EasyPark.Models.Entities
         public string Expiration { get; set; }
 
         [BsonElement("cvv")]
-        public int CVV { get; set; }
+        public string CVV { get; set; }
 
         [BsonElement("selected")]
         public bool Selected { get; set; }

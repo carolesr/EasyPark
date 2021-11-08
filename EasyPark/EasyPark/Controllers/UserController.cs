@@ -43,6 +43,26 @@ namespace EasyPark.Controllers
             return Ok(_service.CreateUser(user));
         }
 
+        [HttpPut]
+        [Route("updateUser")]
+        public ActionResult UpdateUser(UpdateUser user)
+        {
+            return Ok(_service.UpdateUser(user));
+        }
+
+        [HttpPut]
+        [Route("updateVehicles")]
+        public ActionResult UpdateVehicles(UpdateVehicles vehicles)
+        {
+            return Ok(_service.UpdateVehicles(vehicles));
+        }
+
+        [HttpPut]
+        [Route("updateCards")]
+        public ActionResult UpdateCards(UpdateCards cards)
+        {
+            return Ok(_service.UpdateCards(cards));
+        }
 
         [HttpPost]
         [Route("login")]

@@ -38,6 +38,7 @@ namespace EasyPark.Services
             return new Response(result);
         }
 
+
         public Response CreateUser(CreateUser newUser)
         {
             User user = _mapper.Map<User>(newUser);
@@ -55,8 +56,88 @@ namespace EasyPark.Services
             {
                 return new Response(ex.ToString(), false);
             }
-
         }
+
+
+        public Response UpdateUser(UpdateUser updateUser)
+        {
+            if (InvalidEmail(updateUser.Email))
+                return new Response($"There is no user registered with email {updateUser.Email}", false);
+
+            User user = _mapper.Map<User>(updateUser);
+
+            List<string> validations = ValidateUser(user, false);
+            if (validations.Any())
+                return new Response(validations, false);
+
+            try
+            {
+                User userToUpdate = _repository.Get().FirstOrDefault(u => u.Email == user.Email);
+                userToUpdate.Email = user.Email;
+                userToUpdate.Name = user.Name;
+                userToUpdate.Password = user.Password;
+                userToUpdate.Phone = user.Phone;
+                userToUpdate.CPF = user.CPF;
+
+                _repository.Update(userToUpdate);
+                return new Response($"User {user.Name} updated successfuly");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
+        public Response UpdateVehicles(UpdateVehicles updateVehicles)
+        {
+            if (InvalidEmail(updateVehicles.Email))
+                return new Response($"There is no user registered with email {updateVehicles.Email}", false);
+
+            List<Vehicle> vehicles = _mapper.Map<List<Vehicle>>(updateVehicles.Vehicles);
+
+            List<string> validations = ValidateVehicles(vehicles);
+            if (validations.Any())
+                return new Response(validations, false);
+
+            try
+            {
+                User userToUpdate = _repository.Get().FirstOrDefault(u => u.Email == updateVehicles.Email);
+                userToUpdate.Vehicles = vehicles;
+
+                _repository.Update(userToUpdate);
+                return new Response($"{userToUpdate.Name}'s vehicles updated successfuly");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
+        public Response UpdateCards(UpdateCards updateCards)
+        {
+            if (InvalidEmail(updateCards.Email))
+                return new Response($"There is no user registered with email {updateCards.Email}", false);
+
+            List<Card> cards = _mapper.Map<List<Card>>(updateCards.Cards);
+
+            List<string> validations = ValidateCards(cards);
+            if (validations.Any())
+                return new Response(validations, false);
+
+            try
+            {
+                User userToUpdate = _repository.Get().FirstOrDefault(u => u.Email == updateCards.Email);
+                userToUpdate.Cards = cards;
+
+                _repository.Update(userToUpdate);
+                return new Response($"{userToUpdate.Name}'s cards updated successfuly");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
 
         public Response Login(Login login)
         {
@@ -74,7 +155,7 @@ namespace EasyPark.Services
 
         #region Validations
 
-        public List<string> ValidateUser(User user)
+        public List<string> ValidateUser(User user, bool isNewUser = true)
         {
             List<string> errors = new List<string>();
 
@@ -95,7 +176,7 @@ namespace EasyPark.Services
 
             if (errors.Any()) return errors;
 
-            if (EmailAlreadyExists(user.Email))
+            if (isNewUser && EmailAlreadyExists(user.Email))
                 errors.Add("There is already an account registered with this email");
 
             //if (EmailIsValid(user.Email))
@@ -109,9 +190,52 @@ namespace EasyPark.Services
             return errors;
         }
 
+        public List<string> ValidateVehicles(List<Vehicle> vehicles)
+        {
+            List<string> errors = new List<string>();
+
+            vehicles.ForEach(vehicle =>
+            {
+                if (string.IsNullOrEmpty(vehicle.Name))
+                    errors.Add("The name field cannot be empty");
+
+                if (string.IsNullOrEmpty(vehicle.Plate))
+                    errors.Add("The plate field cannot be empty");
+            });
+
+            return errors;
+        }
+
+        public List<string> ValidateCards(List<Card> cards)
+        {
+            List<string> errors = new List<string>();
+
+            cards.ForEach(cards =>
+            {
+                if (string.IsNullOrEmpty(cards.Name))
+                    errors.Add("The name field cannot be empty");
+
+                if (string.IsNullOrEmpty(cards.Number))
+                    errors.Add("The number field cannot be empty");
+
+                if (string.IsNullOrEmpty(cards.Expiration))
+                    errors.Add("The expiration field cannot be empty");
+
+                if (string.IsNullOrEmpty(cards.CVV))
+                    errors.Add("The CVV field cannot be empty");
+            });
+
+            return errors;
+        }
+
         public bool EmailAlreadyExists(string email)
         {
             return _repository.Get().Any(user => string.Equals(user.Email, email));
+        }
+
+        public bool InvalidEmail(string email)
+        {
+            return !_repository.Get().Any(user => string.Equals(user.Email, email));
         }
 
         #endregion

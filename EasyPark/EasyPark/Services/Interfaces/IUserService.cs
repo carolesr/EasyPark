@@ -12,5 +12,6 @@ namespace EasyPark.Services.Interfaces
         public Response UpdateVehicles(UpdateVehicles updateVehicles);
         public Response UpdateCards(UpdateCards updateCards);
         public Response Login(Login login);
+        public void TesteSignalR(string param);
     }
 }

@@ -5,11 +5,38 @@ import { colors } from './../../assets/colors'
 import styles from './Styles'
 
 import userApi from './../../services/UserApi'
+import * as signalR from '@microsoft/signalr';
 
 const LoginScreen = props => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        console.log('useEffect')
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://easy-park-iw.herokuapp.com/robotHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+        try {
+            console.log('start')
+            connection.start();
+            console.log("connected");
+        } catch (err) {
+            console.log('deu ruim')
+            console.log(err);
+            setTimeout(() => start(), 5000);
+        } finally {
+            console.log('terminou saporra')
+        }      
+        connection.onclose(async() => {
+            await start();
+        });
+        
+        connection.on("Teste", (message) => {
+            console.log("TESTE => " + message)
+        })
+    })
 
     const login = () => {
         const data = { email, password };

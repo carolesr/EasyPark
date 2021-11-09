@@ -8,6 +8,7 @@ using EasyPark.Repositories;
 using EasyPark.Services.Interfaces;
 using EasyPark.Services;
 using System.Reflection;
+using EasyPark.Hubs;
 
 namespace EasyPark
 {
@@ -34,6 +35,7 @@ namespace EasyPark
             services.AddScoped<IEstablishmentService, EstablishmentService>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,12 @@ namespace EasyPark
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .SetIsOriginAllowed(_ => true)
+                    .AllowCredentials());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -53,6 +61,7 @@ namespace EasyPark
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<RobotHub>("/robotHub");
             });
         }
     }

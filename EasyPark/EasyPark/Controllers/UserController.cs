@@ -1,6 +1,8 @@
-﻿using EasyPark.Models.DTOs;
+﻿using EasyPark.Hubs;
+using EasyPark.Models.DTOs;
 using EasyPark.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace EasyPark.Controllers
 {
@@ -69,6 +71,14 @@ namespace EasyPark.Controllers
         public ActionResult Login(Login login)
         {
             return Ok(_service.Login(login));
+        }
+
+        [HttpGet]
+        [Route("Test")]
+        public ActionResult Test(string param)
+        {
+            _service.TesteSignalR(param);
+            return Ok();
         }
     }
 }

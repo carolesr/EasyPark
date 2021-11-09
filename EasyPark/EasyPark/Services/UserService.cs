@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using EasyPark.Hubs;
 using EasyPark.Models;
 using EasyPark.Models.DTOs;
 using EasyPark.Models.Entities;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,13 @@ namespace EasyPark.Services
     {
         private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<RobotHub> _hub;
 
-        public UserService(IUserRepository repository, IMapper mapper)
+        public UserService(IUserRepository repository, IMapper mapper, IHubContext<RobotHub> hub)
         {
             _repository = repository;
             _mapper = mapper;
+            _hub = hub;
         }
 
         public Response GetAll()
@@ -239,5 +243,10 @@ namespace EasyPark.Services
         }
 
         #endregion
+
+        public void TesteSignalR(string param)
+        {
+            _hub.Clients.All.SendAsync("Teste", param);
+        }
     }
 }

@@ -1,18 +1,18 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { colors } from '../assets/colors'
 import UserScreen from './../screens/UserScreen/UserScreen'
+import EstablishmentScreen from './../screens/EstablishmentScreen/EstablishmentScreen'
 import Teste from './../components/Teste'
 
 const TabNavigator = props => {
-    
+
   const Tab = createBottomTabNavigator();
-  
+
   const navigatorOptions = {
-    tabBarStyle: { 
+    tabBarStyle: {
       height: '8%',
       borderRadius:10,
       overflow:'hidden',
@@ -48,8 +48,8 @@ const TabNavigator = props => {
             />
             <Tab.Screen
                 name="establishments"
-                component={ Teste }
-                options={ screenOptions('home') }
+                children={() => <EstablishmentScreen /> }
+                options={ screenOptions('map-signs') }
             />
             <Tab.Screen
                 name="sessions"

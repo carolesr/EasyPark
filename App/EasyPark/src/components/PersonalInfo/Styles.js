@@ -10,8 +10,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        margin: '7%',
-        marginBottom: '4%'
+        margin: '7%'
     },
     inputContainer: {
         flex: 1,

@@ -6,7 +6,7 @@ namespace EasyPark.Models.DTOs
     {
         public DateTime StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public string Establishment { get; set; }
 

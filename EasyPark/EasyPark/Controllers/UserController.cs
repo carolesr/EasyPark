@@ -32,7 +32,7 @@ namespace EasyPark.Controllers
         }
 
         [HttpGet]
-        [Route("GetUser")]
+        [Route("getUser")]
         public ActionResult GetUser(string email)
         {
             return Ok(_service.GetUser(email));
@@ -72,6 +72,28 @@ namespace EasyPark.Controllers
         {
             return Ok(_service.Login(login));
         }
+
+        [HttpPost]
+        [Route("linkUserToSpot")]
+        public ActionResult LinkUserToSpot(SpotPlate data)
+        {
+            return Ok(_service.LinkUserToSpot(data));
+        }
+
+        [HttpPost]
+        [Route("beginSession")]
+        public ActionResult BeginSession(GateInfo data)
+        {
+            return Ok(_service.BeginSession(data));
+        }
+
+        [HttpPost]
+        [Route("finishSession")]
+        public ActionResult FinishSession(GateInfo data)
+        {
+            return Ok(_service.FinishSession(data));
+        }
+
 
         [HttpGet]
         [Route("Test")]

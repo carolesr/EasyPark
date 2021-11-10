@@ -11,7 +11,7 @@ namespace EasyPark.Models.Entities
         public DateTime StartTime { get; set; }
 
         [BsonElement("end_time")]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [BsonElement("establishment")]
         public string Establishment { get; set; }

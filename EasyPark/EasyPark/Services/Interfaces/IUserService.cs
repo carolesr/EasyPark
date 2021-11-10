@@ -12,6 +12,9 @@ namespace EasyPark.Services.Interfaces
         public Response UpdateVehicles(UpdateVehicles updateVehicles);
         public Response UpdateCards(UpdateCards updateCards);
         public Response Login(Login login);
+        public Response LinkUserToSpot(SpotPlate data);
+        public Response BeginSession(GateInfo data);
+        public Response FinishSession(GateInfo data);
         public void TesteSignalR(string param);
     }
 }

@@ -25,6 +25,7 @@ namespace EasyPark.Services
             _hub = hub;
         }
 
+
         public Response GetAll()
         {
             List<UserDTO> result = _mapper.Map<List<UserDTO>>(_repository.Get());
@@ -155,6 +156,95 @@ namespace EasyPark.Services
 
             return new Response("User logged successfully.");
         }
+
+
+        #region Parking Lot related
+
+        public Response LinkUserToSpot(SpotPlate data)
+        {
+            try
+            {
+                User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
+
+                if (user == null)
+                    return new Response($"There is no user registered with the plate {data.Plate}.", false);
+
+                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
+
+                if (currentSession == null)
+                    return new Response($"No current session was found.", false);
+
+                user.Sessions.FirstOrDefault(s => s.EndTime == null).Spot = data.Spot;
+
+                _repository.Update(user);
+
+                return new Response($"User {user.Email} parked in spot {data.Spot} with vehicle {data.Plate}.");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
+        public Response BeginSession(GateInfo data)
+        {
+            try
+            {
+                User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
+
+                if (user == null)
+                    return new Response($"There is no user registered with the plate {data.Plate}.", false);
+
+                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
+
+                if (currentSession != null)
+                    return new Response($"Can't start another session while current one isn't finished.", false);
+
+                Session newSession = new Session
+                {
+                    Establishment = data.Establishment,
+                    StartTime = DateTime.Now
+                };
+                user.Sessions.Add(newSession);
+
+                _repository.Update(user);
+
+                return new Response($"User {user.Email} entered {data.Establishment} with vehicle {data.Plate} at {newSession.StartTime}.");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
+        public Response FinishSession(GateInfo data)
+        {
+            try
+            {
+                User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
+
+                if (user == null)
+                    return new Response($"There is no user registered with the plate {data.Plate}.", false);
+
+                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
+
+                if (currentSession == null)
+                    return new Response($"There is no current session to be finished.", false);
+
+                user.Sessions.FirstOrDefault(s => s.EndTime == null).EndTime = DateTime.Now;
+                 // falta fazer as contas do valor
+
+                _repository.Update(user);
+
+                return new Response($"User {user.Email} left {data.Establishment} with vehicle {data.Plate} at {DateTime.Now}.");
+            }
+            catch (Exception ex)
+            {
+                return new Response(ex.ToString(), false);
+            }
+        }
+
+        #endregion
 
 
         #region Validations

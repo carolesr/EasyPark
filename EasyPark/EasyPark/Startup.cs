@@ -9,6 +9,7 @@ using EasyPark.Services.Interfaces;
 using EasyPark.Services;
 using System.Reflection;
 using EasyPark.Hubs;
+using EasyPark.Hubs.Interfaces;
 
 namespace EasyPark
 {
@@ -33,6 +34,7 @@ namespace EasyPark
             services.AddScoped<IEstablishmentRepository, EstablishmentRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEstablishmentService, EstablishmentService>();
+            services.AddScoped<IRobotHub, RobotHub>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSignalR();

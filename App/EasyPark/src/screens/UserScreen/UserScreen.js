@@ -17,13 +17,10 @@ const UserScreen = props => {
         userApi
             .get(`getUser?email=${email}`)
             .then(response => {
-                console.log('GET USER')
-                console.log(response.data)
                 setUser(response.data.result);
             })
             .catch(error => {
                 console.log(error);
-                console.log(error.message);
             })
     }, []);
     

@@ -9,8 +9,8 @@ import * as signalR from '@microsoft/signalr';
 
 const LoginScreen = props => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('a');
+    const [password, setPassword] = useState('a');
 
     // useEffect(() => {
     //     console.log('useEffect')
@@ -43,7 +43,6 @@ const LoginScreen = props => {
         userApi
             .post('login', data)
             .then(response => {
-                console.log(response.data);
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
                 else
@@ -97,7 +96,6 @@ const LoginScreen = props => {
                 <View style={styles.registerContainer}>
                     <Text style={styles.textSmall}>don't have an account yet?</Text>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log('register')
                             props.navigation.push('register')
                         }}>
                         <View style={styles.textContainer}>

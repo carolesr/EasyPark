@@ -22,7 +22,7 @@ const EstablishmentScreen = props => {
     }, []);
 
     const renderItem = ({ item }) => (
-        <Establishment establishment={item || {}}/>
+        <Establishment establishment={item || {}} navigation={props.navigation}/>
     );
     
     return (

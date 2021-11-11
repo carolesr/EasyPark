@@ -124,7 +124,6 @@ const PersonalInfo = props => {
 
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log('save')
                             saveUser()
                         }}>
                         <View style={styles.saveContainer}>

@@ -13,12 +13,14 @@ const Establishment = props => {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [prices, setPrices] = useState([]);
+    const [spots, setSpots] = useState([]);
 
     useEffect(() => {
         if (Object.keys(establishment).length) {
             setName(establishment.name);
             setAddress(establishment.address);
             setPrices(establishment.prices);
+            setSpots(establishment.spots);
         }
     }, [establishment]);
 
@@ -49,6 +51,7 @@ const Establishment = props => {
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             console.log(name)
+                            props.navigation.push('parkinglot', {spots: spots, name: name})
                         }}>
                         <View style={styles.iconContainer}>
                             <Icon name="map" size={50} color={colors.orange} />

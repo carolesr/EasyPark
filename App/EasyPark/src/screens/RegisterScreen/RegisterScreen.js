@@ -21,7 +21,6 @@ const RegisterScreen = props => {
         userApi
             .post('create', data)
             .then(response => {
-                console.log(response.data);
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
                 else
@@ -40,7 +39,6 @@ const RegisterScreen = props => {
 
                 <View style={styles.textContainer}>
                     <TouchableOpacity activeOpacity={0.4} style={styles.button} onPress={() => {
-                            console.log('create account')
                             createUser();
                         }}>
                         <Text style={styles.text}>create account</Text>

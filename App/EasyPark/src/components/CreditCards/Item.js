@@ -51,7 +51,6 @@ const Item = props => {
                 </View>
                 {props.canRemove ? 
                 <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                        console.log(name)
                         props.removeItem(id);
                     }}>
                     <View style={styles.removeContainer}>

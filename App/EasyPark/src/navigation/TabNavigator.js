@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { colors } from '../assets/colors'
+import EstablishmentStackNavigator from './EstablishmentStackNavigator'
 import UserScreen from './../screens/UserScreen/UserScreen'
 import EstablishmentScreen from './../screens/EstablishmentScreen/EstablishmentScreen'
 import Teste from './../components/Teste'
@@ -48,7 +49,8 @@ const TabNavigator = props => {
             />
             <Tab.Screen
                 name="establishments"
-                children={() => <EstablishmentScreen /> }
+                // children={() => <EstablishmentScreen /> }
+                component={ EstablishmentStackNavigator }
                 options={ screenOptions('map-signs') }
             />
             <Tab.Screen

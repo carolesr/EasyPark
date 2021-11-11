@@ -15,7 +15,6 @@ const CreditCards  = props => {
     const listRef = useRef(listComponents);
     
     useEffect(() => {
-        console.log(user)
         if (user.cards != undefined) {
             const components = user.cards.map((item, index) => {
                 return {

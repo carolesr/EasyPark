@@ -5,8 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../assets/colors'
 import EstablishmentStackNavigator from './EstablishmentStackNavigator'
 import UserScreen from './../screens/UserScreen/UserScreen'
-import EstablishmentScreen from './../screens/EstablishmentScreen/EstablishmentScreen'
-import Teste from './../components/Teste'
+import SessionScreen from './../screens/SessionScreen/SessionScreen'
 
 const TabNavigator = props => {
 
@@ -49,13 +48,12 @@ const TabNavigator = props => {
             />
             <Tab.Screen
                 name="establishments"
-                // children={() => <EstablishmentScreen /> }
                 component={ EstablishmentStackNavigator }
                 options={ screenOptions('map-signs') }
             />
             <Tab.Screen
                 name="sessions"
-                component={ Teste }
+                children={() => <SessionScreen email={props.route.params.email} /> }
                 options={ screenOptions('history') }
             />
         </Tab.Navigator>

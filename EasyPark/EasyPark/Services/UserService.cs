@@ -15,16 +15,19 @@ namespace EasyPark.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
+        private readonly IEstablishmentRepository _eRepository;
         private readonly IMapper _mapper;
         private readonly IHubContext<RobotHub> _hub;
 
-        public UserService(IUserRepository repository, IMapper mapper, IHubContext<RobotHub> hub)
+        public UserService(IUserRepository repository, IEstablishmentRepository eRepository, IMapper mapper, IHubContext<RobotHub> hub)
         {
             _repository = repository;
+            _eRepository = eRepository;
             _mapper = mapper;
             _hub = hub;
         }
 
+        #region User related
 
         public Response GetAll()
         {
@@ -42,7 +45,6 @@ namespace EasyPark.Services
             UserDTO result = _mapper.Map<UserDTO>(user);
             return new Response(result);
         }
-
 
         public Response CreateUser(CreateUser newUser)
         {
@@ -62,7 +64,6 @@ namespace EasyPark.Services
                 return new Response(ex.ToString(), false);
             }
         }
-
 
         public Response UpdateUser(UpdateUser updateUser)
         {
@@ -143,7 +144,6 @@ namespace EasyPark.Services
             }
         }
 
-
         public Response Login(Login login)
         {
             User user = _repository.Get().FirstOrDefault(u => u.Email == login.Email);
@@ -157,6 +157,8 @@ namespace EasyPark.Services
             return new Response("User logged successfully.");
         }
 
+        #endregion
+
 
         #region Parking Lot related
 
@@ -165,12 +167,10 @@ namespace EasyPark.Services
             try
             {
                 User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
-
                 if (user == null)
                     return new Response($"There is no user registered with the plate {data.Plate}.", false);
 
                 Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
-
                 if (currentSession == null)
                     return new Response($"No current session was found.", false);
 
@@ -191,18 +191,20 @@ namespace EasyPark.Services
             try
             {
                 User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
-
                 if (user == null)
                     return new Response($"There is no user registered with the plate {data.Plate}.", false);
 
-                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
+                Establishment establishment = _eRepository.Get().FirstOrDefault(e => e.Id == data.Establishment);
+                if (establishment == null)
+                    return new Response($"There is no establishment with id {data.Establishment}.", false);
 
+                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
                 if (currentSession != null)
                     return new Response($"Can't start another session while current one isn't finished.", false);
 
                 Session newSession = new Session
                 {
-                    Establishment = data.Establishment,
+                    Establishment = establishment.Name,
                     StartTime = DateTime.Now
                 };
                 user.Sessions.Add(newSession);
@@ -222,17 +224,25 @@ namespace EasyPark.Services
             try
             {
                 User user = _repository.Get().FirstOrDefault(u => u.Vehicles != null && u.Vehicles.Any(v => v.Plate == data.Plate));
-
                 if (user == null)
                     return new Response($"There is no user registered with the plate {data.Plate}.", false);
 
-                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
+                Establishment establishment = _eRepository.Get().FirstOrDefault(e => e.Id == data.Establishment);
+                if (establishment == null)
+                    return new Response($"There is no establishment with id {data.Establishment}.", false);
 
+                Session currentSession = user.Sessions.FirstOrDefault(s => s.EndTime == null);
                 if (currentSession == null)
                     return new Response($"There is no current session to be finished.", false);
 
-                user.Sessions.FirstOrDefault(s => s.EndTime == null).EndTime = DateTime.Now;
-                 // falta fazer as contas do valor
+                DateTime endTime = DateTime.Now;
+                TimeSpan totalTime = endTime - currentSession.StartTime;
+                double totalMinutes = Math.Round(totalTime.TotalMinutes);
+                double value = establishment.Prices.FirstOrDefault(p => p.MinTime <= totalMinutes && p.MaxTime >= totalMinutes).Value;
+
+                user.Sessions.FirstOrDefault(s => s.EndTime == null).Value = value;
+                user.Sessions.FirstOrDefault(s => s.EndTime == null).Card = user.Cards.FirstOrDefault(c => c.Selected).Name;
+                user.Sessions.FirstOrDefault(s => s.EndTime == null).EndTime = endTime;
 
                 _repository.Update(user);
 

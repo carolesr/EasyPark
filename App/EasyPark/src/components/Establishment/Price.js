@@ -13,11 +13,16 @@ const Price = props => {
     useEffect(() => {
         if (Object.keys(price).length) {
             const t = price.maxTime
-            ? `${price.minTime}h - ${price.maxTime}h : R$${price.value}/h`
-            : `${price.minTime}h+ : R$${price.value}/h`
+            ? `${minuteToHour(price.minTime)} - ${minuteToHour(price.maxTime)} : R$${price.value},00`
+            : `${minuteToHour(price.minTime)}+ : R$${price.value},00`
             setText(t);
+            minuteToHour(price.minTime)
         }
     }, [price]);
+
+    const minuteToHour = time => {
+        return time >= 60 ? `${time / 60}h` : `${time}m`
+    }
 
     return (
             <View>

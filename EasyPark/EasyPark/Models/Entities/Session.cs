@@ -20,7 +20,7 @@ namespace EasyPark.Models.Entities
         public string Spot { get; set; }
 
         [BsonElement("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [BsonElement("card")]
         public string Card { get; set; }

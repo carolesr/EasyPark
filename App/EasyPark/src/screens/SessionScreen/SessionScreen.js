@@ -16,9 +16,11 @@ const SessionScreen = props => {
         userApi
             .get(`getUser?email=${email}`)
             .then(response => {
-                console.log(response.data.result)
                 setUser(response.data.result);
-                setSessions(response.data.result.sessions)
+                const array = response.data.result.sessions.sort((a,b) => {
+                    return new Date(b.startTime) - new Date(a.startTime);
+                });
+                setSessions(array);
             })
             .catch(error => {
                 console.log(error);

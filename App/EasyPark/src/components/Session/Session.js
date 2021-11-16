@@ -14,7 +14,7 @@ const Session = props => {
     const [date, setDate] = useState('');
     const [endTime, setEndTime] = useState('');
     const [spot, setSpot] = useState('');
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState();
     const [card, setCard] = useState('');
 
     useEffect(() => {
@@ -26,10 +26,10 @@ const Session = props => {
                 setEndTime(convertTime(session.endTime));
             if (session.spot != null)
                 setSpot(session.spot);
-            if (session.value != null)
+            if (session.endTime != null)
                 setValue(session.value);
             if (session.card != null)
-                setCard(session.card);
+                setCard(session.card);            
         }
     }, [session]);
 
@@ -49,7 +49,7 @@ const Session = props => {
 
                 <View>
                     <View>
-                        <Text style={styles.title}>{date} - R${value}</Text>
+                        <Text style={styles.title}>{value != '' ? `${date} - R$${value},00` : date}</Text>
                     </View>
                     <View>
                         <Text style={styles.text}>{establishment}</Text>
@@ -60,9 +60,9 @@ const Session = props => {
                     <View>
                         <Text style={styles.smallText}>exit - {endTime}</Text>
                     </View>
-                    <View>
+                    {card != '' && <View>
                         <Text style={styles.smallText}>paid with {card}</Text>
-                    </View>
+                    </View>}
                 </View>
                 <View style={styles.spotContainer}>
                     {spot != '' ?

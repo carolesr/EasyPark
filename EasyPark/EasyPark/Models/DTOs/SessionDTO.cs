@@ -12,7 +12,7 @@ namespace EasyPark.Models.DTOs
 
         public string Spot { get; set; }
 
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         public string Card { get; set; }
     }

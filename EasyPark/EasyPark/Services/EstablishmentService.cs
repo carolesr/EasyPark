@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using EasyPark.Hubs;
 using EasyPark.Hubs.Interfaces;
 using EasyPark.Models;
 using EasyPark.Models.DTOs;
 using EasyPark.Models.Entities;
 using EasyPark.Repositories.Interfaces;
 using EasyPark.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,13 @@ namespace EasyPark.Services
     {
         private readonly IEstablishmentRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<RobotHub> _robotHub;
         private readonly IRobotHub _hub;
-        public EstablishmentService(IEstablishmentRepository repository, IMapper mapper, IRobotHub hub)
+        public EstablishmentService(IEstablishmentRepository repository, IMapper mapper, IHubContext<RobotHub> robotHub, IRobotHub hub)
         {
             _repository = repository;
             _mapper = mapper;
+            _robotHub = robotHub;
             _hub = hub;
         }
 
@@ -50,7 +54,8 @@ namespace EasyPark.Services
                 _repository.Update(establishment);
 
                 if (spot.Occupied)
-                    _hub.SendSpot(spot.SpotId);
+                    _robotHub.Clients.All.SendAsync("CarHasParked", spot.SpotId);
+                    //_hub.SendSpot(spot.SpotId);
 
                 return new Response($"Spot {spot.SpotId} occupied successfully");
             }

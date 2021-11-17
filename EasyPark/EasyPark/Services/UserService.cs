@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyPark.Hubs;
+using EasyPark.Hubs.Interfaces;
 using EasyPark.Models;
 using EasyPark.Models.DTOs;
 using EasyPark.Models.Entities;
@@ -17,14 +18,18 @@ namespace EasyPark.Services
         private readonly IUserRepository _repository;
         private readonly IEstablishmentRepository _eRepository;
         private readonly IMapper _mapper;
-        private readonly IHubContext<RobotHub> _hub;
+        private readonly IHubContext<RobotHub> _robotHub;
+        private readonly IHubContext<AppHub> _appHub;
+        private readonly IAppHub _hub;
 
-        public UserService(IUserRepository repository, IEstablishmentRepository eRepository, IMapper mapper, IHubContext<RobotHub> hub)
+        public UserService(IUserRepository repository, IEstablishmentRepository eRepository, IMapper mapper, IAppHub hub, IHubContext<RobotHub> robotHub, IHubContext<AppHub> appHub)
         {
             _repository = repository;
             _eRepository = eRepository;
             _mapper = mapper;
             _hub = hub;
+            _robotHub = robotHub;
+            _appHub = appHub;
         }
 
         #region User related
@@ -178,6 +183,9 @@ namespace EasyPark.Services
 
                 _repository.Update(user);
 
+                //_hub.NotifySpotOccupied(data.Spot);
+                _appHub.Clients.All.SendAsync("SpotSet", data.Spot);
+
                 return new Response($"User {user.Email} parked in spot {data.Spot} with vehicle {data.Plate}.");
             }
             catch (Exception ex)
@@ -211,6 +219,9 @@ namespace EasyPark.Services
 
                 _repository.Update(user);
 
+                //_hub.NotifyNewSession(newSession);
+                _appHub.Clients.All.SendAsync("NewSession", newSession);
+
                 return new Response($"User {user.Email} entered {data.Establishment} with vehicle {data.Plate} at {newSession.StartTime}.");
             }
             catch (Exception ex)
@@ -238,13 +249,17 @@ namespace EasyPark.Services
                 DateTime endTime = DateTime.Now;
                 TimeSpan totalTime = endTime - currentSession.StartTime;
                 double totalMinutes = Math.Round(totalTime.TotalMinutes);
-                double value = establishment.Prices.FirstOrDefault(p => p.MinTime <= totalMinutes && p.MaxTime >= totalMinutes).Value;
+                double? value = establishment.Prices.FirstOrDefault(p => p.MinTime <= totalMinutes && p.MaxTime >= totalMinutes)?.Value;
 
+                Session session = user.Sessions.FirstOrDefault(s => s.EndTime == null);
                 user.Sessions.FirstOrDefault(s => s.EndTime == null).Value = value;
                 user.Sessions.FirstOrDefault(s => s.EndTime == null).Card = user.Cards.FirstOrDefault(c => c.Selected).Name;
                 user.Sessions.FirstOrDefault(s => s.EndTime == null).EndTime = endTime;
 
                 _repository.Update(user);
+
+                //_hub.NotifySessionFinished(session);
+                _appHub.Clients.All.SendAsync("SessionFinished", session);
 
                 return new Response($"User {user.Email} left {data.Establishment} with vehicle {data.Plate} at {DateTime.Now}.");
             }
@@ -346,7 +361,7 @@ namespace EasyPark.Services
 
         public void TesteSignalR(string param)
         {
-            _hub.Clients.All.SendAsync("Teste", param);
+            _robotHub.Clients.All.SendAsync("Teste", param);
         }
     }
 }

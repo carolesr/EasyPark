@@ -26,10 +26,10 @@ const Session = props => {
                 setEndTime(convertTime(session.endTime));
             if (session.spot != null)
                 setSpot(session.spot);
-            if (session.endTime != null)
+            if (session.value != null)
                 setValue(session.value);
             if (session.card != null)
-                setCard(session.card);            
+                setCard(session.card);         
         }
     }, [session]);
 
@@ -39,7 +39,7 @@ const Session = props => {
     }
 
     const convertTime = time => {
-        const datetime = new Date(session.startTime)
+        const datetime = new Date(time)
         return`${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`
     }
 
@@ -49,7 +49,7 @@ const Session = props => {
 
                 <View>
                     <View>
-                        <Text style={styles.title}>{value != '' ? `${date} - R$${value},00` : date}</Text>
+                        <Text style={styles.title}>{value != undefined ? `${date} - R$${value},00` : date}</Text>
                     </View>
                     <View>
                         <Text style={styles.text}>{establishment}</Text>

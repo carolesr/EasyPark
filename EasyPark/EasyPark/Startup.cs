@@ -35,6 +35,7 @@ namespace EasyPark
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEstablishmentService, EstablishmentService>();
             services.AddScoped<IRobotHub, RobotHub>();
+            services.AddScoped<IAppHub, AppHub>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSignalR();
@@ -64,6 +65,7 @@ namespace EasyPark
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<RobotHub>("/robotHub");
+                endpoints.MapHub<AppHub>("/appHub");
             });
         }
     }

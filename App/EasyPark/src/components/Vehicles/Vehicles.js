@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
@@ -35,7 +35,7 @@ const Vehicles = props => {
             'id': newId, 
             'name': '',
             'plate': '',
-            'component': <Item id={newId} vehicle={{'id': newId, 'name': '', 'plate': ''}} canRemove={true} updateItem={updateItem} removeItem={removeItem}/>
+            'component': <Item id={newId} vehicle={{'id': newId, 'name': '', 'plate': ''}} canRemove={newId} updateItem={updateItem} removeItem={removeItem}/>
         }
         setListComponents(prevArray => [...prevArray, newItem])
         listRef.current = [...listComponents, newItem]
@@ -68,11 +68,7 @@ const Vehicles = props => {
         userApi
             .put('updateVehicles', data)
             .then(response => {
-                console.log(response.data);
-                if (response.data.success)
-                    console.log('top')
-                else
-                    console.log(response.data.messages)
+                ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
             })
             .catch(error => {
                 console.error(error);

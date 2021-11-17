@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Button, TextInput, TouchableOpacity, Text, Image } from 'react-native';
+import { View, ScrollView, Button, TextInput, TouchableOpacity, Text, Image, ToastAndroid } from 'react-native';
 
 import { colors } from './../../assets/colors'
 import styles from './Styles'
@@ -17,10 +17,9 @@ const LoginScreen = props => {
         userApi
             .post('login', data)
             .then(response => {
+                ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
-                else
-                    console.log(response.data.messages)
             })
             .catch(error => {
                 console.error(error);
@@ -60,7 +59,7 @@ const LoginScreen = props => {
 
                 <View style={styles.textContainer}>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log('login')
+                            console.log('login')                            
                             login();
                         }}>
                         <Text style={styles.text}>login</Text>

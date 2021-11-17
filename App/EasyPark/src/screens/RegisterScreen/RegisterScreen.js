@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, ToastAndroid } from 'react-native';
 
 import styles from './Styles'
 import PersonalInfo from './../../components/PersonalInfo/PersonalInfo'
@@ -21,10 +21,9 @@ const RegisterScreen = props => {
         userApi
             .post('create', data)
             .then(response => {
+                ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
-                else
-                    console.log(response.data.messages)
             })
             .catch(error => {
                 console.error(error);

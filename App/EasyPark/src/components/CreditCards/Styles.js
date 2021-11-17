@@ -62,6 +62,11 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         marginBottom: 20
+    },
+    checkboxContainer: {
+        marginTop: 20,
+        marginRight: 10,
+        width: '5%'
     }
 });
 

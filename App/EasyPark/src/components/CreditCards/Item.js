@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import CheckBox from '@react-native-community/checkbox';
 
 import styles from './Styles'
 import { colors } from '../../assets/colors'
@@ -11,6 +12,7 @@ const Item = props => {
     const [name, setName] = useState('');
     const [expiration, setExpiration] = useState('');
     const [CVV, setCVV] = useState('');
+    const [selected, setSelected] = useState(false);
     const [id, setId] = useState('');
 
     useEffect(() => {
@@ -18,6 +20,7 @@ const Item = props => {
         setName(props.card.name)
         setExpiration(props.card.expiration)
         setCVV(props.card.cvv)
+        setSelected(props.card.selected)
         setId(props.card.id)
     }, [props])
 
@@ -29,7 +32,7 @@ const Item = props => {
                         value={number}
                         onChangeText={t => {
                             setNumber(t)
-                            props.updateItem(id, name, t, expiration, CVV)
+                            props.updateItem(id, name, t, expiration, CVV, selected)
                         }}
                         style={styles.input}
                         placeholder='number'
@@ -42,7 +45,7 @@ const Item = props => {
                         value={name}
                         onChangeText={t => {
                             setName(t)
-                            props.updateItem(id, t, number, expiration, CVV)
+                            props.updateItem(id, t, number, expiration, CVV, selected)
                         }}
                         style={styles.input}
                         placeholder='name'
@@ -69,12 +72,11 @@ const Item = props => {
                         value={expiration}
                         onChangeText={t => {
                             setExpiration(t)
-                            props.updateItem(id, name, number, t, CVV)
+                            props.updateItem(id, name, number, t, CVV, selected)
                         }}
                         style={styles.input}
                         placeholder='expiration'
                         placeholderTextColor={colors.lightBlue}
-                        keyboardType="numeric"
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -82,7 +84,7 @@ const Item = props => {
                         value={CVV}
                         onChangeText={t => {
                             setCVV(t)
-                            props.updateItem(id, name, number, expiration, t)
+                            props.updateItem(id, name, number, expiration, t, selected)
                         }}
                         style={styles.input}
                         placeholder='CVV'
@@ -90,8 +92,15 @@ const Item = props => {
                         keyboardType="numeric"
                     />
                 </View>
-                <View style={styles.removeContainer}>
-                    <Icon name="remove" size={20} color={colors.white} />
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        value={selected}
+                        tintColors={{ true: colors.blue, false: colors.blue }}
+                        onValueChange={v => {
+                            setSelected(v)
+                            props.updateItem(id, name, number, expiration, CVV, v)
+                        }}
+                    />
                 </View>
             </View>
             

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
@@ -39,19 +39,20 @@ const CreditCards  = props => {
             'number': '',
             'expiration': '',
             'cvv': '',
-            'component': <Item id={newId} card={{'id': newId, 'name': '', 'number': '', 'expiration': '', 'cvv': '',}} canRemove={true} updateItem={updateItem} removeItem={removeItem}/>
+            'component': <Item id={newId} card={{'id': newId, 'name': '', 'number': '', 'expiration': '', 'cvv': '',}} canRemove={newId} updateItem={updateItem} removeItem={removeItem}/>
         }
         setListComponents(prevArray => [...prevArray, newItem])
         listRef.current = [...listComponents, newItem]
     }
 
-    const updateItem = (id, name, number, expiration, cvv) => {
+    const updateItem = (id, name, number, expiration, cvv, selected) => {
         const index = listRef.current.findIndex(x => x.id == id);
         const item = listRef.current[index];
         item.name = name;
         item.number = number;
         item.expiration = expiration;
         item.cvv = cvv;
+        item.selected = selected;
         const aux = listRef.current;
         aux[index] = item;
         setListComponents(aux);
@@ -68,18 +69,13 @@ const CreditCards  = props => {
         const data = {
             email: user.email, 
             cards: listComponents.map(x => { 
-                return { 'name': x.name, 'number': x.number, 'expiration': x.expiration, 'cvv': x.cvv }
+                return { 'name': x.name, 'number': x.number, 'expiration': x.expiration, 'cvv': x.cvv, 'selected': x.selected }
             })
         }
-        console.log(data)
         userApi
             .put('updateCards', data)
             .then(response => {
-                console.log(response.data);
-                if (response.data.success)
-                    console.log('top')
-                else
-                    console.log(response.data.messages)
+                ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
             })
             .catch(error => {
                 console.error(error);

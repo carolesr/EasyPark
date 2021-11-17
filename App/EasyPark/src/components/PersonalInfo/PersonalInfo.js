@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
@@ -37,11 +37,7 @@ const PersonalInfo = props => {
         userApi
             .put('updateUser', data)
             .then(response => {
-                console.log(response.data);
-                if (response.data.success)
-                    console.log('top')
-                else
-                    console.log(response.data.messages)
+                ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
             })
             .catch(error => {
                 console.error(error);
@@ -52,9 +48,9 @@ const PersonalInfo = props => {
         <View style={styles.screen}>
             <View style={styles.container}>
 
-                {!isNewUser && <View>
-                    <Text style={styles.title}>personal info</Text>
-                </View>}
+                <View>
+                    <Text style={styles.title}>{isNewUser ? 'new account' : 'personal info'}</Text>
+                </View>
 
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -122,7 +118,7 @@ const PersonalInfo = props => {
                     </View>
                 </View>
 
-                <View>
+                {!isNewUser && <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
                             saveUser()
                         }}>
@@ -130,7 +126,7 @@ const PersonalInfo = props => {
                             <Icon name="save" size={30} color={colors.orange} />
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View>}
             </View>            
         </View>
     );

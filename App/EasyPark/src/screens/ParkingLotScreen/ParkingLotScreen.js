@@ -1,22 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, LogBox } from 'react-native';
 
 import styles from './Styles'
 import Spot from './../../components/Spot/Spot'
 import Row from './../../components/Spot/Row'
 
+import establishmentApi from './../../services/EstablishmentApi'
+import * as signalR from '@microsoft/signalr'
+
 const ParkingLotScreen = props => {
 
+    const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [rows, setRows] = useState([]);
     const rowSize = 6;
 
     useEffect(() => {
-        if (Object.keys(props.route.params.spots).length) {
-            setName(props.route.params.name);
-            breakRows(props.route.params.spots);       
-        }
+        setId(props.route.params.id);
+        setName(props.route.params.name);
+        getEstablishment(props.route.params.id);
+        configureSignalR();
+        LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
     }, [props]);
+
+    const getEstablishment = id => {
+        establishmentApi
+            .get(`getEstablishment?establishmentId=${id}`)
+            .then(response => {
+                breakRows(response.data.result.spots)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    const configureSignalR = () => {
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://easy-park-iw.herokuapp.com/appHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+        try {
+            connection.start();
+        } catch (err) {
+            console.log(err);
+            setTimeout(() => start(), 5000);
+        } finally {
+            console.log('conectou')
+        }      
+        connection.onclose(async() => {
+            await start();
+        });
+        
+        connection.on("SpotStatusChenged", (message) => {
+            if (message == id)
+                getEstablishment(message)
+        })
+    }
 
     const breakRows = spots => {
         const rows = []

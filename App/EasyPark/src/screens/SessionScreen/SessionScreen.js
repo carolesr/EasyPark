@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { LogBox } from 'react-native';
-
+import { View, FlatList, Tex, LogBox } from 'react-native';
 
 import styles from './Styles'
 import Session from './../../components/Session/Session'

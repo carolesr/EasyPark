@@ -10,17 +10,17 @@ const Establishment = props => {
 
     const establishment = props.establishment;
 
+    const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [prices, setPrices] = useState([]);
-    const [spots, setSpots] = useState([]);
 
     useEffect(() => {
         if (Object.keys(establishment).length) {
+            setId(establishment.id);
             setName(establishment.name);
             setAddress(establishment.address);
             setPrices(establishment.prices);
-            setSpots(establishment.spots);
         }
     }, [establishment]);
 
@@ -50,8 +50,7 @@ const Establishment = props => {
                 </View>
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log(name)
-                            props.navigation.push('parkinglot', {spots: spots, name: name})
+                            props.navigation.push('parkinglot', {name: name, id: id})
                         }}>
                         <View style={styles.iconContainer}>
                             <Icon name="map" size={50} color={colors.orange} />

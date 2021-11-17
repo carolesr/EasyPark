@@ -18,12 +18,14 @@ namespace EasyPark.Services
         private readonly IEstablishmentRepository _repository;
         private readonly IMapper _mapper;
         private readonly IHubContext<RobotHub> _robotHub;
+        private readonly IHubContext<AppHub> _appHub;
         private readonly IRobotHub _hub;
-        public EstablishmentService(IEstablishmentRepository repository, IMapper mapper, IHubContext<RobotHub> robotHub, IRobotHub hub)
+        public EstablishmentService(IEstablishmentRepository repository, IMapper mapper, IHubContext<RobotHub> robotHub, IHubContext<AppHub> appHub, IRobotHub hub)
         {
             _repository = repository;
             _mapper = mapper;
             _robotHub = robotHub;
+            _appHub = appHub;
             _hub = hub;
         }
 
@@ -53,6 +55,7 @@ namespace EasyPark.Services
 
                 _repository.Update(establishment);
 
+                _appHub.Clients.All.SendAsync("SpotStatusChenged", establishment.Id);
                 if (spot.Occupied)
                     _robotHub.Clients.All.SendAsync("CarHasParked", spot.SpotId);
                     //_hub.SendSpot(spot.SpotId);

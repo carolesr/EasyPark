@@ -281,9 +281,9 @@ namespace EasyPark.Services
             request.KeepAlive = true;
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
-            request.Headers.Add("authorization", "Basic ZDE0OTZlMTMtZDA1ZS00YWQ0LWFkYjEtNWJhMDYwYzIyYzNi");
+            request.Headers.Add("authorization", "Basic ");
 
-            byte[] byteArray = Encoding.UTF8.GetBytes("{\"app_id\": \"22df9c75-9510-49b0-8dd7-17e7cd50ab5b\","
+            byte[] byteArray = Encoding.UTF8.GetBytes("{\"app_id\": \"\","
                                                         + "\"contents\": {\"en\": \"" + message + "\"},"
                                                         + "\"included_segments\": [\"Subscribed Users\"]}");
 

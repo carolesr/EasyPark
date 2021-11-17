@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace EasyPark.Services
 {
@@ -185,6 +188,7 @@ namespace EasyPark.Services
 
                 //_hub.NotifySpotOccupied(data.Spot);
                 _appHub.Clients.All.SendAsync("SpotSet", data.Spot);
+                PushNotification($"Car parked at {data.Spot}");
 
                 return new Response($"User {user.Email} parked in spot {data.Spot} with vehicle {data.Plate}.");
             }
@@ -221,6 +225,7 @@ namespace EasyPark.Services
 
                 //_hub.NotifyNewSession(newSession);
                 _appHub.Clients.All.SendAsync("NewSession", newSession);
+                PushNotification($"Entered parking lot at {newSession.StartTime}");
 
                 return new Response($"User {user.Email} entered {data.Establishment} with vehicle {data.Plate} at {newSession.StartTime}.");
             }
@@ -260,6 +265,7 @@ namespace EasyPark.Services
 
                 //_hub.NotifySessionFinished(session);
                 _appHub.Clients.All.SendAsync("SessionFinished", session);
+                PushNotification($"Left parking lot at {endTime}\nTotal paid: R${value},00");
 
                 return new Response($"User {user.Email} left {data.Establishment} with vehicle {data.Plate} at {DateTime.Now}.");
             }
@@ -267,6 +273,44 @@ namespace EasyPark.Services
             {
                 return new Response(ex.ToString(), false);
             }
+        }
+
+        public void PushNotification(string message)
+        {
+            var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+            request.KeepAlive = true;
+            request.Method = "POST";
+            request.ContentType = "application/json; charset=utf-8";
+            request.Headers.Add("authorization", "Basic ZDE0OTZlMTMtZDA1ZS00YWQ0LWFkYjEtNWJhMDYwYzIyYzNi");
+
+            byte[] byteArray = Encoding.UTF8.GetBytes("{\"app_id\": \"22df9c75-9510-49b0-8dd7-17e7cd50ab5b\","
+                                                        + "\"contents\": {\"en\": \"" + message + "\"},"
+                                                        + "\"included_segments\": [\"Subscribed Users\"]}");
+
+            string responseContent = null;
+
+            try
+            {
+                using (var writer = request.GetRequestStream())
+                {
+                    writer.Write(byteArray, 0, byteArray.Length);
+                }
+
+                using (var response = request.GetResponse() as HttpWebResponse)
+                {
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        responseContent = reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
+            }
+
+            System.Diagnostics.Debug.WriteLine(responseContent);
         }
 
         #endregion
@@ -358,10 +402,11 @@ namespace EasyPark.Services
         }
 
         #endregion
-
+        
         public void TesteSignalR(string param)
         {
             _robotHub.Clients.All.SendAsync("Teste", param);
+            PushNotification(param);
         }
     }
 }

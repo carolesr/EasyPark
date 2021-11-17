@@ -12,6 +12,8 @@ target 'EasyPark' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
   target 'EasyParkTests' do
     inherit! :complete
     # Pods for testing

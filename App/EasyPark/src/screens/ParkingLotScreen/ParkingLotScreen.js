@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, LogBox } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, LogBox, ActivityIndicator } from 'react-native';
 
+import { colors } from './../../assets/colors'
 import styles from './Styles'
+
 import Spot from './../../components/Spot/Spot'
 import Row from './../../components/Spot/Row'
 
@@ -13,6 +15,7 @@ const ParkingLotScreen = props => {
     const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(false);
     const rowSize = 6;
 
     useEffect(() => {
@@ -24,10 +27,12 @@ const ParkingLotScreen = props => {
     }, [props]);
 
     const getEstablishment = id => {
+        setLoading(true);
         establishmentApi
             .get(`getEstablishment?establishmentId=${id}`)
             .then(response => {
                 breakRows(response.data.result.spots)
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
@@ -91,7 +96,7 @@ const ParkingLotScreen = props => {
 
                 <View>
                     <TouchableOpacity activeOpacity={0.4}  onPress={() => {
-                            console.log('voltar')
+                            console.log('back')
                             props.navigation.goBack()
                         }}>
                         <View>
@@ -101,6 +106,14 @@ const ParkingLotScreen = props => {
                 </View>
                 
             </View>
+            
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}
+
         </View>
     );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TouchableOpacity, Text, ToastAndroid } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, ToastAndroid, ActivityIndicator } from 'react-native';
 
+import { colors } from './../../assets/colors'
 import styles from './Styles'
 import PersonalInfo from './../../components/PersonalInfo/PersonalInfo'
 
@@ -13,8 +14,10 @@ const RegisterScreen = props => {
     const [password, setPassword] = useState('');
     const [CPF, setCPF] = useState('');
     const [phone, setPhone] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const createUser = () => {
+        setLoading(true);
         const data = {
             name, email, password, CPF, phone
         }
@@ -24,6 +27,7 @@ const RegisterScreen = props => {
                 ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
+            setLoading(false);
             })
             .catch(error => {
                 console.error(error);
@@ -43,6 +47,14 @@ const RegisterScreen = props => {
                         <Text style={styles.text}>create account</Text>
                     </TouchableOpacity>
                 </View>
+
+                {loading && <View style={styles.loading}>
+                    <ActivityIndicator
+                        size="large"
+                        color={colors.orange}
+                    />
+                </View>}
+
             </View>
         </ScrollView>
     );

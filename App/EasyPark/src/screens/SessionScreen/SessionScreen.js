@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Tex, LogBox } from 'react-native';
+import { View, FlatList, Tex, LogBox, ActivityIndicator } from 'react-native';
 
+import { colors } from './../../assets/colors'
 import styles from './Styles'
+
 import Session from './../../components/Session/Session'
 
 import userApi from './../../services/UserApi'
@@ -11,7 +13,8 @@ const SessionScreen = props => {
 
     const email = props.email;
     const [user, setUser] = useState({});
-    const [sessions, setSessions] = useState([]); 
+    const [sessions, setSessions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getUser();
@@ -20,6 +23,7 @@ const SessionScreen = props => {
     }, []);
 
     const getUser = () => {
+        setLoading(true);
         userApi
             .get(`getUser?email=${email}`)
             .then(response => {
@@ -28,6 +32,7 @@ const SessionScreen = props => {
                     return new Date(b.startTime) - new Date(a.startTime);
                 });
                 setSessions(array);
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
@@ -74,6 +79,13 @@ const SessionScreen = props => {
                 data={sessions}
                 renderItem={renderItem}
             />
+            
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}
         </View>
     );
 }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 
+import { colors } from './../../assets/colors'
 import styles from './Styles'
+
 import Establishment from './../../components/Establishment/Establishment'
 
 import establishmentApi from './../../services/EstablishmentApi'
@@ -9,12 +11,15 @@ import establishmentApi from './../../services/EstablishmentApi'
 const EstablishmentScreen = props => {
 
     const [establishments, setEstablishments] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         establishmentApi
             .get(`getAll`)
             .then(response => {
                 setEstablishments(response.data.result);
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
@@ -31,6 +36,13 @@ const EstablishmentScreen = props => {
                 data={establishments}
                 renderItem={renderItem}
             />
+
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}
         </View>
     );
 }

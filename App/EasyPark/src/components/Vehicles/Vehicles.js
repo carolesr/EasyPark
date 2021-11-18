@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, Text, TouchableOpacity, ToastAndroid } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, ToastAndroid, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
@@ -11,7 +11,8 @@ import userApi from '../../services/UserApi'
 const Vehicles = props => {
 
     const user = props.user;    
-    const [listComponents, setListComponents] = useState([]);    
+    const [listComponents, setListComponents] = useState([]);
+    const [loading, setLoading] = useState(false);  
     const listRef = useRef(listComponents);
 
     useEffect(() => {
@@ -59,6 +60,7 @@ const Vehicles = props => {
     }
 
     const saveVehicles = () => {
+        setLoading(true);
         const data = {
             email: user.email, 
             vehicles: listComponents.map(x => { 
@@ -69,6 +71,7 @@ const Vehicles = props => {
             .put('updateVehicles', data)
             .then(response => {
                 ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
+                setLoading(false);
             })
             .catch(error => {
                 console.error(error);
@@ -103,7 +106,15 @@ const Vehicles = props => {
                         </View>
                     </TouchableOpacity>
                 </View>
-            </View>            
+            </View>
+            
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}
+                      
         </View>
     );
 }

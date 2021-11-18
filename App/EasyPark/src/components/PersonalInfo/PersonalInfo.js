@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ToastAndroid, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Styles'
@@ -16,6 +16,7 @@ const PersonalInfo = props => {
     const [password, setPassword] = useState('');
     const [CPF, setCPF] = useState('');
     const [phone, setPhone] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [isNewUser, setIsNewUser] = useState(true);
 
@@ -31,6 +32,7 @@ const PersonalInfo = props => {
     }, [user]);
 
     const saveUser = () => {
+        setLoading(true);
         const data = {
             name, email, password, CPF, phone
         }
@@ -38,6 +40,7 @@ const PersonalInfo = props => {
             .put('updateUser', data)
             .then(response => {
                 ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
+                setLoading(false);
             })
             .catch(error => {
                 console.error(error);
@@ -127,7 +130,14 @@ const PersonalInfo = props => {
                         </View>
                     </TouchableOpacity>
                 </View>}
-            </View>            
+            </View>
+            
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}          
         </View>
     );
 }

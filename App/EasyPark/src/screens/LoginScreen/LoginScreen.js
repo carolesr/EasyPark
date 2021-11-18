@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Button, TextInput, TouchableOpacity, Text, Image, ToastAndroid } from 'react-native';
+import { View, ScrollView, Button, TextInput, TouchableOpacity, Text, Image, ToastAndroid, ActivityIndicator } from 'react-native';
 
 import { colors } from './../../assets/colors'
 import styles from './Styles'
@@ -11,8 +11,10 @@ const LoginScreen = props => {
 
     const [email, setEmail] = useState('a');
     const [password, setPassword] = useState('a');
+    const [loading, setLoading] = useState(false);
 
     const login = () => {
+        setLoading(true);
         const data = { email, password };
         userApi
             .post('login', data)
@@ -20,6 +22,7 @@ const LoginScreen = props => {
                 ToastAndroid.show(response.data.messages[0], ToastAndroid.SHORT)
                 if (response.data.success)
                     props.navigation.push('tab', {email: email});
+                setLoading(false);
             })
             .catch(error => {
                 console.error(error);
@@ -77,8 +80,14 @@ const LoginScreen = props => {
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </View>        
 
+            {loading && <View style={styles.loading}>
+                <ActivityIndicator
+                    size="large"
+                    color={colors.orange}
+                />
+            </View>}
 
         </View>
     );
